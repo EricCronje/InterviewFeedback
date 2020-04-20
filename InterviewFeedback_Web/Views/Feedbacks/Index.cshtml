@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<!doctype html>
+<html>
+<head>
+    <title>Interview feedback</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+
+<body ng-app='feedbackapp'>
+
+    
+
+    <div ng-controller="feedbackCtrl">
+        <div ng-show="showFeedbackResult">
+            <h4>Interview feedback-summary</h4>
+            <div ng-repeat="question in interviewFeedback">
+                <div class="questionHeading">{{question.question}}</div>
+                <div ng-repeat="questionOptions in question.questionOptions">
+                    {{questionOptions.display}} {{questionOptions.percentage}}</br>
+                </div>
+            </div>
+        </div>
+
+        <div ng-hide="showFeedbackResult">
+            <h4>Interview feedback</h4>
+            <div ng-repeat="question in interviewFeedback">
+                <div class="questionHeading">{{question.question}}</div>
+                <div ng-repeat="questionOptions in question.questionOptions" ng-hide={{question.questionSingleType}}>
+                    <input type="checkbox" ng-model="$parent.question.questionOptions[$index].id" ng-value="$parent.question.questionOptions[$index].id" ng-click='feedBackSelectClick($parent.question.questionOptions[$index], false, $parent.question)' name="$parent.question.id">{{questionOptions.display}} </input></br>
+                </div>
+                <div ng-repeat="questionOptions in question.questionOptions" ng-show={{question.questionSingleType}}>
+                    <input type="radio" ng-click='feedBackSelectClick($parent.question.questionOptions[$index], true, $parent.question)' name="{{questionOptions.id}}" value="{{questionOptions.id}}" ng-model="question.id"> {{questionOptions.display}}</input></br>
+                </div>
+            </div>
+            <div>
+                <button ng-click="submitResult()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+<script src="~/Scripts/feedback.js"></script>
+
+
+
